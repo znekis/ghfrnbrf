@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Медиа-центр | Студенческий клуб</title>
+    <!-- Подключение шрифта Inter (современный и читаемый) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Font Awesome для иконок (соцсети, камера и т.д.) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ========== СБРОС И ПЕРЕМЕННЫЕ ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0c0f;
+            --bg-card: #14181c;
+            --accent-purple: #9b4dff;
+            --accent-pink: #ff4d9b;
+            --accent-blue: #4d9bff;
+            --text-light: #f0f2f5;
+            --text-gray: #a0a5ac;
+            --border-color: #2a2f35;
+            --gradient: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========== ТИПОГРАФИКА ========== */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        h2 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            color: var(--text-gray);
+            max-width: 600px;
+            margin-bottom: 48px;
+            font-size: 1.1rem;
+        }
+
+        /* ========== КНОПКИ ========== */
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 8px 20px rgba(155, 77, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(155, 77, 255, 0.5);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--accent-purple);
+            color: white;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        /* ========== ШАПКА ========== */
+        .navbar {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(10, 12, 15, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-pink);
+        }
+
+        /* ========== HERO СЕКЦИЯ ========== */
+        .hero {
+            padding: 80px 0;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            background: linear-gradient(145deg, #1e1e2f, #13131f);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .media-item {
+            background: #252b33;
+            border-radius: 12px;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .media-item.large {
+            grid-column: span 2;
+            height: 200px;
+        }
+
+        .media-item i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: rgba(255,255,255,0.7);
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 50%;
+        }
+
+        /* Заглушки для изображений (имитация контента) */
+        .item1 { background-image: linear-gradient(45deg, #ff4d9b, #9b4dff); }
+        .item2 { background-image: linear-gradient(125deg, #4d9bff, #4dff9b); opacity: 0.8; }
+        .item3 { background-image: linear-gradient(45deg, #ff9b4d, #ff4d4d); }
+        .item4 { background-image: linear-gradient(45deg, #9b4dff, #4d9bff); }
+
+        /* ========== СЕКЦИИ ========== */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Навыки (фишки) */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 32px 24px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+        }
+
+        /* Оборудование */
+        .equip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .equip-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .equip-tag i {
+            color: var(--accent-purple);
+        }
+
+        .equip-tag:hover {
+            border-color: var(--accent-pink);
+        }
+
+        /* Команда */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            padding-bottom: 24px;
+        }
+
+        .team-photo {
+            height: 200px;
+            background: linear-gradient(45deg, #1f2a3a, #2a1f3a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--accent-purple);
+        }
+
+        .team-card h4 {
+            margin-top: 16px;
+            font-size: 1.2rem;
+        }
+
+        .team-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Портфолио */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .portfolio-item {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .portfolio-cover {
+            height: 180px;
+            background: linear-gradient(125deg, #3a2a4a, #1f2f4a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .portfolio-info {
+            padding: 20px;
+        }
+
+        .portfolio-info h4 {
+            margin-bottom: 8px;
+        }
+
+        .portfolio-info p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Форма/Контакты */
+        .contact-form {
+            max-width: 600px;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 32px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            font-family: inherit;
+            color: white;
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+
+        /* Футер */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-gray);
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            transition: color 0.2s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-pink);
+        }
+
+        /* Адаптация */
+        @media (max-width: 768px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none; /* упрощаем для мобильной версии */
+            }
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ШАПКА -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">СтудАктив</div>
+            <div class="nav-links">
+                <a href="#about">О нас</a>
+                <a href="#team">Команда</a>
+                <a href="#portfolio">Работы</a>
+                <a href="#join">Вступить</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1> СтудАктив:<br> Подключись к системе!</h1>
+                <p>СтудАктив — место, где рождаются контент и креативные идеи. Фото, видео, дизайн, SMM и большая команда профессионалов своего дела.</p>
+                <div class="hero-buttons">
+                    <a href="#join" class="btn btn-primary">Стать частью</a>
+                    <a href="#portfolio" class="btn btn-outline">Наши работы</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="media-grid">
+                    <img src="img/картинка3.jpg" alt="Описание" style="width: 500px; height: auto;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О НАС / НАВЫКИ (ЧЕМУ НАУЧИМ) -->
+    <section id="about">
+        <div class="container">
+            <h2><span>Чему ты</span> научишься?</h2>
+            <p class="section-desc">Мы не просто кружок по интересам. Мы — твоя стартовая площадка в мир медиа.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-camera-retro"></i>
+                    <h3>Танцевальная студия</h3>
+                    <p>Ритм, движение и выступления на сцене!</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Медиа-центр</h3>
+                    <p>Место, где рождаются контент и креативные идеи!</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>Первичное отделение Движения Первых</h3>
+                    <p>Для тех, кто хочет быть в авангарде студенческих инициатив!</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <h3>Дошкольный клуб ДЭПЛ</h3>
+                    <p>Работа с детьми и развитие педагогических навыков!</p>
+                </div>
+            </div>
+
+
+    <!-- КОМАНДА -->
+    <section id="team">
+        <div class="container">
+            <h2><span>Наша</span> команда</h2>
+            <p class="section-desc">Лидеры и наставники, которые помогут тебе развиваться</p>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-photo"><i class="fas fa-user-astronaut"></i></div>
+                    <h4></h4>
+                    <p></p>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo"><i class="fas fa-user-ninja"></i></div>
+                    <h4></h4>
+                    <p></p>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo"><i class="fas fa-user-tie"></i></div>
+                    <h4></h4>
+                    <p></p>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo"><i class="fas fa-user-musician"></i></div>
+                    <h4></h4>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОРТФОЛИО / ПРОЕКТЫ -->
+    <section id="portfolio">
+        <div class="container">
+            <h2><span>Наши</span> проекты</h2>
+            <p class="section-desc">То, что мы уже сделали. Здесь могла бы быть и твоя работа.</p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="img/картинка3.jpg" alt="Описание" style="width: 500px; height: auto;">
+                    <div class="portfolio-info">
+                        <h4></h4>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="img/картинка2.jpg" alt="Описание" style="width: 500px; height: auto;">
+                    <div class="portfolio-info">
+                        <h4></h4>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="img/картинка1.jpg" alt="Описание" style="width: 500px; height: auto;">
+                    <div class="portfolio-info">
+                        <h4></h4>
+                        <p></p>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </section>
+
+    <!-- ПРИСОЕДИНИТЬСЯ -->
+    <section id="join">
+        <div class="container">
+            <h2><span>Присоединяйся</span> к нам</h2>
+            <p class="section-desc">Заполни форму, и мы пригласим тебя на ближайшую встречу медиа-центра. Приходи с идеями или просто за новыми знакомствами!</p>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Имя и фамилия" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Группа">
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="4" placeholder="Какое направление тебе интересно? "></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer class="footer">
+        <div class="container">
+            <p>СтудАктив Студенческого клуба | Творчество. Развитие. Дружба.</p>
+            <p><i class="fas fa-map-pin"></i> Первый корпус, 3 этаж, | Каждую среду в 17:00</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-vk"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem;">© 2025 СтудАктив. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
